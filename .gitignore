@@ -1,0 +1,8 @@
+bin/
+obj/
+.vs/
+
+Library/
+Temp/
+Builds/
+Logs/
