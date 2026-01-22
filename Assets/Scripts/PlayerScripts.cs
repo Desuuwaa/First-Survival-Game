@@ -22,8 +22,17 @@ public class PlayerScripts : MonoBehaviour
     {
         float gerakKiriKanan = Input.GetAxis("Horizontal");
         float gerakMajuMundur = Input.GetAxis("Vertical");
-        Vector3 arahGerakan = new Vector3(gerakKiriKanan, 0, gerakMajuMundur) * kecepatan;
         Vector3 arahLompatan = new Vector3(0, kekuatanLompat, 0);
+        Transform cam = Camera.main.transform;
+        Vector3 camForward = cam.forward;
+        Vector3 camRight = cam.right;
+        camForward.y = 0;
+        camRight.y = 0;
+        camForward.Normalize();
+        camRight.Normalize();
+        Vector3 arahGerakan = (camForward * gerakMajuMundur + camRight * gerakKiriKanan) * kecepatan;
+
+        
 
         rb.linearVelocity = new Vector3(arahGerakan.x, rb.linearVelocity.y, arahGerakan.z);
         if (Input.GetButtonDown("Jump") && isGrounded)
@@ -43,7 +52,6 @@ public class PlayerScripts : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            Debug.Log("Kena tanah!");
             isGrounded = true;
         }
     }
